@@ -25,6 +25,10 @@ app.use(cors({credentials: true, origin: true}));
 // Use routes from ./routes.js
 app.use('/', apiRoutes);
 
+app.use('/google', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 server.on('listening', onListening);
 server.on('error', onError);
 server.listen(port);

@@ -3,15 +3,15 @@ const Schema = mongoose.Schema;
 
 // create user schema
 let userSchema = new Schema({
-    name: String,
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone: { type: Number, required: true, unique: true },
-    password: String,
+    phone: { type: String, required: true, unique: true },
     course: String,
-    college: { type: String, required: true},
-    token: String,
+    college: { type: String, required: true },
     level: Number,
     sub_level: Number,
+    _id: { type: String, required: true, unique: true },
+    picture: String,
     created_at: Date,
     updated_at: Date
 });
@@ -23,7 +23,8 @@ userSchema.pre('save', function(next) {
 
     // change the updated_at field to current date
     this.updated_at = currentDate;
-
+    this.level = 0;
+    this.sub_level = 0;
     // if created_at doesn't exist, add to that field
     if (!this.created_at)
         this.created_at = currentDate;
