@@ -1,0 +1,32 @@
+{
+    "name": "Obscura-4-backend",
+    "version": "0.0.1",
+    "description": "Obscura is an online crypthunt. This repo holds backend for obscura 4.0",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AnshulMalik/obscura-4-backend.git"
+    },
+    "keywords": [
+        "obscura",
+        "api"
+    ],
+    "author": "Anshul Malik",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/AnshulMalik/obscura-4-backend/issues"
+    },
+    "dependencies": {
+        "body-parser": "^1.16.0",
+        "compression": "^1.6.2",
+        "cookie-parser": "^1.4.3",
+        "cors": "^2.8.1",
+        "express": "~4.14.0",
+        "http-status-codes": "^1.1.6",
+        "mongoose": "^4.7.8"
+    }
+}
