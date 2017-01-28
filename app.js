@@ -2,17 +2,19 @@ const express = require('express');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
+const fs = require('fs');
+const app = express();
+
 const http = require('http');
+const server = http.createServer(app);
 
 const models = require('./models');
 const apiRoutes = require('./routes');
-const app = express();
-
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-const server = http.createServer(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,6 +23,10 @@ app.use(compression());
 
 // To enable CORS
 app.use(cors({credentials: true, origin: true}));
+
+// Logging events in access.log file
+let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+app.use(morgan('combined', {stream: accessLogStream}))
 
 // Use routes from ./routes.js
 app.use('/', apiRoutes);

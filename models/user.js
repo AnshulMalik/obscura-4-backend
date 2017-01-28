@@ -16,6 +16,17 @@ let userSchema = new Schema({
     updated_at: Date
 });
 
+userSchema.method('toPublic', function() {
+    // Abstracts unnecessary into from user object for public view
+    let obj = this.toObject();
+    obj.id = this._id;
+    delete obj._id;
+    delete obj.created_at;
+    delete obj.updated_at;
+    delete obj.__v;
+    return obj;
+});
+
 // on every save, add the date
 userSchema.pre('save', function(next) {
     // get the current date

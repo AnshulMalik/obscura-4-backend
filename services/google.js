@@ -2,6 +2,9 @@ const request = require('request');
 
 module.exports = {
     verifyIdToken: function(idToken) {
+        /*
+        Calls google tokeninfo url, to verify the id token presented
+         */
         return new Promise((resolve, reject) => {
             let uri = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + idToken;
 
