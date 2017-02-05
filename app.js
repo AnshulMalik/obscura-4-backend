@@ -13,7 +13,7 @@ const server = http.createServer(app);
 
 const models = require('./models');
 const apiRoutes = require('./routes');
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3007');
 app.set('port', port);
 
 app.use(bodyParser.json());

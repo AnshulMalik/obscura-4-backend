@@ -26,6 +26,7 @@ const User = require('../../models/user');
 router.post('/', (req, res) => {
     // Input must be validated and corresponding status codes are to be sent.
 
+    console.log(req.body);
     if(!req.body.id_token) {
         // id_token is not present in request, reject
         return res.status(HttpStatus.BAD_REQUEST).json({id_token: 'ID token is required.'});
@@ -38,7 +39,7 @@ router.post('/', (req, res) => {
         req.body._id = gUser.sub;
         req.body.picture = gUser.picture;
 
-        User.findOne({ email: req.body.email }, '_id email name', (err, user) => {
+        User.findOne({ email: req.body.email }, '', (err, user) => {
             if(err) {
                 console.log(err);
             }
@@ -47,6 +48,7 @@ router.post('/', (req, res) => {
                 // User doesn't exists, try to insert one
                 User.create(req.body, (err, user) => {
                     if(err) {
+                        console.log(err);
                         let errors = [];
                         Object.keys(err.errors).map((field) => {
                             errors.push({
@@ -60,7 +62,11 @@ router.post('/', (req, res) => {
                     console.log(user.name, 'signed up');
                     return res.json({
                         id: user._id,
-                        type: 'new',
+                        name: user.name,
+                        email: user.email,
+                        picture: user.picture,
+                        college: user.college,
+                        level: user.level,
                         message: 'Signup successful',
                         token: tokenService.generateToken(user)
                     });
@@ -69,9 +75,14 @@ router.post('/', (req, res) => {
             else {
                 // User already exists, just return token
                 console.log(user.name, 'logged in');
+                console.log(user);
                 return res.json({
                     id: user._id,
-                    type: 'old',
+                    name: user.name,
+                    email: user.email,
+                    picture: user.picture,
+                    college: user.college,
+                    level: user.level,
                     token: tokenService.generateToken(user),
                     message: 'Login successful'
                 });
