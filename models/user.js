@@ -7,7 +7,8 @@ let userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     college: { type: String, required: true },
-    level: Number,          // Current level id of the user
+    level: String,          // Current level id of the user
+    levelId: Number,
     _id: { type: String, required: true, unique: true },
     picture: String,
     created_at: Date,
@@ -31,7 +32,10 @@ userSchema.pre('save', function(next) {
     let currentDate = new Date();
 
     if(!this.level) {
-        this.level = 0;
+        this.level = '0';
+    }
+    if(!this.levelId) {
+        this.levelId = 0;
     }
     // change the updated_at field to current date
     this.updated_at = currentDate;

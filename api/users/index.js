@@ -23,16 +23,36 @@ const User = require('../../models/user');
         token: Access token for using the obscura api
         message: Status message
  */
+
+function getUserDetails(body) {
+    return new Promise((resolve, reject) => {
+        if(body.access_token) {
+            googleService.verifyAccessToken(body.access_token).then((fUser) => {
+                fUser.picture = fUser.picture.data.url;
+                fUser.sub = fUser.id;                       // UserId
+                
+                resolve(fUser);
+            });
+        }
+        else {
+            googleService.verifyIdToken(body.id_token).then((gUser) => {
+                resolve(gUser);
+            });
+        }
+    });
+}
+
+
 router.post('/', (req, res) => {
     // Input must be validated and corresponding status codes are to be sent.
 
     console.log(req.body);
-    if(!req.body.id_token) {
+    if(!(req.body.id_token || req.body.access_token)) {
         // id_token is not present in request, reject
-        return res.status(HttpStatus.BAD_REQUEST).json({id_token: 'ID token is required.'});
+        return res.status(HttpStatus.BAD_REQUEST).json({id_token: 'ID token or access token is required.'});
     }
 
-    googleService.verifyIdToken(req.body.id_token).then((gUser) => {
+    getUserDetails(req.body).then((gUser)=> {
         // We don't need to take email as input from user,
         // since we can get it from google
         req.body.email = gUser.email;

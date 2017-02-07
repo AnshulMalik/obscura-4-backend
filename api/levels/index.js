@@ -41,19 +41,22 @@ router.post('/:url', tokenMiddleware, (req, res) => {
             if(level.answers.indexOf(ansString) !== -1 ) {
                 // Right answer
                 User.findOne({ _id: req.user.id}, (err, user) => {
-                    if(level._id - user.level > 1) {
+                    if(level._id - user.levelId > 0) {
                         // Only sequential answer solution is permitted.
                         return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'You are going too fast.' })
                     }
-                    console.log(level._id, user.level)
 
-                    if(level._id - user.level == 1) {
+                    let userObj = user.toObject();
+                    console.log(level._id, userObj.levelId);
+
+                    if(level._id - userObj.levelId == 0) {
                         // First time submitting the correct answer to this level
-                        console.log('Updating user');
-                        user.level = level._id;
+                        user.level = level.next;
+                        user.levelId++;
+                        console.log('Updating user', user);
                         user.save();
                     }
-                    return res.json({ status: 'accepted', next: level.next});
+                    return res.json({ status: 'accepted', next: level.next, max: user.level});
                 });
             }
             else {
@@ -61,7 +64,7 @@ router.post('/:url', tokenMiddleware, (req, res) => {
             }
         }
         else {
-            return res.json({ errors: ['Level doesn\'t exist']});
+            return res.status(HttpStatus.BAD_REQUEST).json({ errors: ['Level doesn\'t exist']});
         }
     });
 });
