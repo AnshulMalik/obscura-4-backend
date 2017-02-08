@@ -32,7 +32,7 @@ module.exports = {
         */
 
         return {
-            _id: parseInt(decode[0]),
+            id: decode[0],
             email: decode[1]
         };
     }
