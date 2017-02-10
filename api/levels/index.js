@@ -6,8 +6,8 @@ const User = require('../../models/user');
 const tokenMiddleware = require('../middlewares/tokenMiddleware');
 const io = require('../sockets')();
 
-let startTime = new Date('Fri, 10 Feb 2017 11:30:00 GMT');
-//let startTime = new Date('Fri, 10 Feb 2017 00:30:00 GMT');
+//let startTime = new Date('Fri, 10 Feb 2017 11:30:00 GMT');
+let startTime = new Date('Fri, 10 Feb 2017 00:30:00 GMT');
 router.get('/:url', tokenMiddleware, (req, res, next) => {
     // API to fetch any level: GET /levels/:levelURL
     if(Date.now() < startTime) {

@@ -21,7 +21,6 @@ module.exports = ( req, res, next ) => {
         req.user = tokenService.isValid(token);
         // If token is valid, req.user contains id and email
         if(req.user) {
-            console.log('Token is valid for ', req.user.email);
             next();     // Forward the request to next function
         }
         else {
