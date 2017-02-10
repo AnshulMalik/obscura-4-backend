@@ -19,12 +19,11 @@ module.exports = {
                 try {
                     body = JSON.parse(body);
 
-                    console.log('google resonse', body);
                     console.log('User token verified');
 
                     if(!body.email) {
                         // Email permission was not granted
-                        console.log('Email permission was not granted.');
+                        console.log('Email permission was not granted google.');
                         return reject('Email permission was not granted');
                     }
                     resolve(body);
@@ -56,10 +55,9 @@ module.exports = {
                 try {
                     body = JSON.parse(body);
                     console.log('User access token verified');
-                    console.log('facebook response: ', body);
                     if(!body.email) {
                         // Email permission was not granted
-                        console.log('Email permission was not granted.');
+                        console.log('Email permission was not granted facebook.');
                         return reject('Email permission was not granted');
                     }
                     resolve(body);

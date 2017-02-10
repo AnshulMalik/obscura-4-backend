@@ -9,12 +9,16 @@ const fs = require('fs');
 const app = express();
 
 const http = require('http');
+const port = normalizePort(process.env.PORT || '3007');
+
+app.set('port', port);
+
 const server = http.createServer(app);
+const io = require('./api/sockets')(server);
 
 const models = require('./models');
 const apiRoutes = require('./routes');
-const port = normalizePort(process.env.PORT || '3007');
-app.set('port', port);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

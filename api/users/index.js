@@ -30,7 +30,7 @@ function getUserDetails(body) {
             googleService.verifyAccessToken(body.access_token).then((fUser) => {
                 fUser.picture = fUser.picture.data.url;
                 fUser.sub = fUser.id;                       // UserId
-                
+
                 resolve(fUser);
             });
         }
@@ -46,9 +46,9 @@ function getUserDetails(body) {
 router.post('/', (req, res) => {
     // Input must be validated and corresponding status codes are to be sent.
 
-    console.log(req.body);
     if(!(req.body.id_token || req.body.access_token)) {
         // id_token is not present in request, reject
+        console.log('Login request without token');
         return res.status(HttpStatus.BAD_REQUEST).json({id_token: 'ID token or access token is required.'});
     }
 
@@ -61,14 +61,15 @@ router.post('/', (req, res) => {
 
         User.findOne({ email: req.body.email }, '', (err, user) => {
             if(err) {
-                console.log(err);
+                console.log('Error while fetching user detail at login', err);
             }
 
             if(!user) {
                 // User doesn't exists, try to insert one
+
                 User.create(req.body, (err, user) => {
                     if(err) {
-                        console.log(err);
+                        console.log('Errors encountered while signup', err);
                         let errors = [];
                         Object.keys(err.errors).map((field) => {
                             errors.push({
@@ -95,7 +96,6 @@ router.post('/', (req, res) => {
             else {
                 // User already exists, just return token
                 console.log(user.name, 'logged in');
-                console.log(user);
                 return res.json({
                     id: user._id,
                     name: user.name,
