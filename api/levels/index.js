@@ -77,7 +77,7 @@ router.post('/:url', tokenMiddleware, (req, res) => {
                         // First time submitting the correct answer to this level
                         user.level = level.next;
                         user.levelId++;
-                        console.log(req.user.email, 'solved', req.params.level);
+                        console.log(req.user.email, 'solved', req.params.url);
                         user.save();
                         io.sockets.emit('update', {id: userObj._id, level: userObj.levelId + 1});
                     }
