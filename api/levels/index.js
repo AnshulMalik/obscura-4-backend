@@ -6,8 +6,8 @@ const User = require('../../models/user');
 const tokenMiddleware = require('../middlewares/tokenMiddleware');
 const io = require('../sockets')();
 
-let startTime = new Date('Fri, 10 Feb 2017 11:30:00 GMT');
-//let startTime = new Date('Fri, 10 Feb 2017 00:30:00 GMT');
+//let startTime = new Date('Fri, 10 Feb 2017 11:30:00 GMT');
+let startTime = new Date('Fri, 10 Feb 2017 00:30:00 GMT');
 router.get('/:url', tokenMiddleware, (req, res, next) => {
     // API to fetch any level: GET /levels/:levelURL
     if(Date.now() < startTime) {
@@ -22,7 +22,7 @@ router.get('/:url', tokenMiddleware, (req, res, next) => {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: 'Internal server error'});
         }
 
-        Level.findOne({ url: req.params.url }, (err, level) => {
+        Level.findOne({ url: req.params.url},{ next: 0, answers: 0, id: 0}, (err, level) => {
             if(err) {
                 console.error(err);
                 return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: 'Internal server error'});
