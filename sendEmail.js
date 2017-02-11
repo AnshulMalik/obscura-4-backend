@@ -6,8 +6,7 @@ var transporter = nodemailer.createTransport({
     auth: {
         user: 'malikanshul29@gmail.com',
         pass: 'ritlbaaxrpvputop'
-    },
-    proxy: 'socks5://0.0.0.0:6001'
+    }
 });
 //transporter.set('proxy_socks_module', require('socks'));
 
@@ -41,6 +40,5 @@ function send(user) {
         });
     });
 }
-
 
 module.exports = send;

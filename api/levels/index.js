@@ -38,8 +38,8 @@ router.get('/:url', tokenMiddleware, (req, res, next) => {
                     console.log('UNAUTHORIZED', req.user.email, 'tried to get ', level.levelId, 'level');
                     return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'You think you can do that? hahaha'})
                 }
-                /*
-                if(level.levelId == 3) {
+
+                if(level.levelId == 25) {
                     if(typeof user.emailCount == 'undefined')
                         user.emailCount = 0;
 
@@ -53,7 +53,7 @@ router.get('/:url', tokenMiddleware, (req, res, next) => {
                         })
                     }
                 }
-                */
+                
                 res.json(level);
             }
             else {
