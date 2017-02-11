@@ -4,8 +4,8 @@ var async = require("async");
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'malikanshul29@gmail.com',
-        pass: 'ritlbaaxrpvputop'
+        user: 'arijitmotog@gmail.com',
+        pass: 'gbxkxhsreosnddaz'
     }
 });
 //transporter.set('proxy_socks_module', require('socks'));
@@ -40,5 +40,4 @@ function send(user) {
         });
     });
 }
-
 module.exports = send;
