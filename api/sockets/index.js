@@ -9,10 +9,10 @@ module.exports = (server) => {
     io = require('socket.io').listen(server);
 
     io.on('connection', (socket) => {
-        console.log('User connected');
+//        console.log('User connected');
 
         socket.on('disconnect', () => {
-            console.log('User disconnected');
+//            console.log('User disconnected');
         });
     });
     return io;

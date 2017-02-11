@@ -5,9 +5,11 @@ const Level = require('../../models/level');
 const User = require('../../models/user');
 const tokenMiddleware = require('../middlewares/tokenMiddleware');
 const io = require('../sockets')();
+const sendEmail = require('../../sendEmail');
 
 //let startTime = new Date('Fri, 10 Feb 2017 11:30:00 GMT');
 let startTime = new Date('Fri, 10 Feb 2017 00:30:00 GMT');
+
 router.get('/:url', tokenMiddleware, (req, res, next) => {
     // API to fetch any level: GET /levels/:levelURL
     if(Date.now() < startTime) {
@@ -36,6 +38,22 @@ router.get('/:url', tokenMiddleware, (req, res, next) => {
                     console.log('UNAUTHORIZED', req.user.email, 'tried to get ', level.levelId, 'level');
                     return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'You think you can do that? hahaha'})
                 }
+                /*
+                if(level.levelId == 3) {
+                    if(typeof user.emailCount == 'undefined')
+                        user.emailCount = 0;
+
+                    if(user.emailCount < 2) {
+                        sendEmail(user).then((resp) => {
+                            console.log('Send email to', user.email);
+                            user.emailCount++;
+                            user.save();
+                        }).catch((err) => {
+                            console.log('Email to', user.email, 'failed', err);
+                        })
+                    }
+                }
+                */
                 res.json(level);
             }
             else {

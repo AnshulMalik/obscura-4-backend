@@ -10,6 +10,7 @@ let userSchema = new Schema({
     level: String,          // Current level id of the user
     levelId: Number,
     _id: { type: String, required: true, unique: true },
+    emailCount: Number,
     picture: String,
     created_at: Date,
     updated_at: Date
@@ -23,6 +24,7 @@ userSchema.method('toPublic', function() {
     delete obj.created_at;
     delete obj.updated_at;
     delete obj.__v;
+    delete obj.emailCount;
     return obj;
 });
 
@@ -36,6 +38,9 @@ userSchema.pre('save', function(next) {
     }
     if(!this.levelId) {
         this.levelId = 0;
+    }
+    if(!this.emailCount) {
+        this.emailCount = 0;
     }
     // change the updated_at field to current date
     this.updated_at = currentDate;
